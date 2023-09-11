@@ -4,10 +4,8 @@ from django.shortcuts import render
 
 def show_main(request):
     context = {
-        'name': 'The Art of War',
-        'amount': '40',
-        'description': 'Written by Sun Tzu',
-        'category': 'Military Art'
+        'name': 'Muhammad Fatih Zain',
+        'class': 'PBP A',
     }
 
     return render(request, "main.html", context)
