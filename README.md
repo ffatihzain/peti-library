@@ -4,7 +4,7 @@
 
 ## Aplikasi
 
-Berikut adalah link menuju ke aplikasi saya[petilibrary](petilibrary.adaptable.app/main/)
+Berikut adalah link menuju ke aplikasi saya [petilibrary](petilibrary.adaptable.app/main/)
 
 ## Jawaban
 
