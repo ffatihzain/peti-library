@@ -5,7 +5,7 @@ class Item(models.Model):
     date_added = models.DateField(auto_now_add=True)
     amount = models.IntegerField()
     description = models.TextField()
-    category = models.TextField()
+    category = models.CharField(max_length=255)
 
 
 # Create your models here.
