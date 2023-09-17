@@ -6,6 +6,15 @@
 
 Berikut adalah link menuju ke aplikasi saya [petilibrary](petilibrary.adaptable.app/main/)
 
+# Tugas 3
+
+## Jawaban
+
+### Apa perbedaan antara form POST dan form GET dalam Django?
+
+
+# Tugas 2
+
 ## Jawaban
 
 ### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
