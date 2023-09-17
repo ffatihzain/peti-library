@@ -15,7 +15,7 @@ def show_main(request):
     context = {
         'name': 'Muhammad Fatih Zain',
         'class': 'PBP A',
-        'item': items,
+        'items': items,
         'jumlah_item' : jumlah_item,
     }
 
