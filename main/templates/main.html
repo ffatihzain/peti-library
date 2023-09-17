@@ -4,10 +4,10 @@
     <h1>Peti Library's Guide</h1>
 
     <h5>Name:</h5>
-    <p>{{name}}</p>
+    <p>{{ name }}</p>
 
     <h5>Class:</h5>
-    <p>{{class}}</p>
+    <p>{{ class }}</p>
 
     <p>Kamu menyimpan {{ jumlah_item }} buku pada aplikasi ini</p>
 
@@ -17,19 +17,18 @@
             <th>Name</th>
             <th>Amount</th>
             <th>Description</th>
-            <th>Date Added</th>
             <th>Category</th>
+            <th>Date Added</th>
         </tr>
-
-        {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini {% endcomment %}
+        
 
         {% for item in items %}
             <tr>
                 <td>{{item.name}}</td>
                 <td>{{item.amount}}</td>
                 <td>{{item.description}}</td>
-                <td>{{item.date_added}}</td>
                 <td>{{item.category}}</td>
+                <td>{{item.date_added}}</td>
                 
             </tr>
         {% endfor %}
@@ -37,7 +36,7 @@
 
     <br />
 
-    <a href="{% url 'main:create_product' %}">
+    <a href="{% url 'main:create_item' %}">
         <button>
             Add New Book
         </button>

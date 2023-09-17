@@ -21,7 +21,7 @@ def show_main(request):
 
     return render(request, "main.html", context)
 
-def create_product(request):
+def create_item(request):
     form = ProductForm(request.POST or None)
 
     if form.is_valid() and request.method == "POST":
