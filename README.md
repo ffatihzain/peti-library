@@ -14,13 +14,16 @@ Berikut adalah link menuju ke aplikasi saya [petilibrary](petilibrary.adaptable.
 
 Perbedaan dari kedua form tersebut terdapat pada penggunaannya. POST biasa digunakan jika user ingin bertukar data atau request apapun yang bisa digunakan untuk mengubah sistem atau database. Cara kerjanya adalah POST mengumpulkan data form dan mengirim data tersebut pada server. sedangkan GET digunakan jika user ingin mengambil sebuah data atau request yang bersifat membaca atau pencarian, sehingga tidak memengaruhi sistem. data yang diambil GET juga terlihat di URL, sehingga membuat hal tersebut kurang aman dan berbalik dengan POST yang menyembunyikan data.
 
+
 ### Apa perbedaan utama antara XML, JSON, dan HTML dalam konteks pengiriman data?
 
 HTML adalah bahasa yang biasa digunakan untuk membuat struktur dan tampilan halaman web. HTML adalah dasar utama dari web development untuk membuat struktur dari halaman web. Sedangkan JSON dan XML biasanya digunakan untuk penyimpanan dan transmisi data . Perbedaan dari XML dan JSON lebih tertuju kepada penggunaannya. XML merupakan format fleksibel dan terstruktur yang digunakan untuk pertukaran data antar aplikasi, sedangkan JSON dengan format yang lebih ringan lebih sering digunakan dalam pengembangan web dan API. JSON memanfaatkan notasi objek JavaScript untuk menyusun data.
 
+
 ### Mengapa JSON sering digunakan dalam pertukaran data antara aplikasi web modern?
 
  Beberapa alasan mengapa JSON sering digunakan dalam pertukaran data adalah karena JSON memiliki advantage dalam beberapa aspek, seperti mudah dibaca, dapat menghemat memory pada aplikasi, dan juga fleksibel. JSON juga sangat kompatibel dengan berbagai bahasa pemrograman, framework atau sistem operasi sehingga berguna dan efisien untuk pertukaran data antar sistem. Terakhir, JSON tergolong mudah dibaca dan dimengerti, serta JSON merupakan format yang mandiri (tidak membutuhkan atribut tambahan).
+
 
 ### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step
 
@@ -31,7 +34,7 @@ Dalam file `forms.py`, buat class `Product Form` dengan parameter `ModelForm`. K
 - Membuat fungsi `create_product` dengan parameter `request`
 Dalam fungsi tersebut, terdapat form yang berisi `ProductForm` dengan parameter input `request.POST` sebagai `QueryDict`. Selanjutnya terdapat `if-else` untuk validasi konten dengan `form.is_valid()` dan menyimpan konten dengan `form.save`. Jika konten tersimpan, akan redirect ke halaman utama dengan `return HttpResponseRedirect(reverse('main:show_main'))`. Terakhir fungsi akan me-render `create_product.html`.
 
--Menambahkan kode pada fungsi `show_main` pada file `views.py`
+- Menambahkan kode pada fungsi `show_main` pada file `views.py`
 Menambahkan `items = Item.objects.all()` untuk mengambil seluruh object `Item` pada database. kemudian menambahkan `'products': products` pada context.
 
 - Import beberapa fungsi dan menambahkan path url
@@ -42,7 +45,8 @@ Isi file dengan kode yang sesuai untuk pembuatan interface tabel. Menambahkan `{
 - Menambahkan kode di `main.html`
 Menambah kode untuk memperlihatkan data item pada HTML dalam bentuk tabel. Terdapat juga button `Add New Product` yang mengarahkan ke halaman form.
 
-2. & 3. Tambahkan 5 fungsi views untuk melihat objek yang sudah ditambahkan dalam format HTML, XML, JSON, XML by ID, dan JSON by ID.
+2. Tambahkan 5 fungsi views untuk melihat objek yang sudah ditambahkan dalam format HTML, XML, JSON, XML by ID, dan JSON by ID.
+3. Membuat routing URL untuk masing-masing views yang telah ditambahkan pada poin 2
 
 - Membuat fungsi `show_xml` pada `views.py` dan membuat path url untuk mengakses fungsi tersebut
 Mengambil data Item dan me-return sebagai XML dengan
@@ -79,6 +83,7 @@ def show_json_by_id(request, id):
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 ```
 pada `urls.py` dalam direktori `main` memasukkan kode  `path('json/<int:id>/', show_json_by_id, name='show_json_by_id'),`
+
 
 ### Mengakses kelima URL di poin 2 menggunakan Postman, membuat screenshot dari hasil akses URL pada Postman, dan menambahkannya ke dalam README.md.
 
