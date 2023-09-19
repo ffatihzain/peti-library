@@ -2,10 +2,6 @@
 
 ## PBP A - 2206824073
 
-## Aplikasi
-
-Berikut adalah link menuju ke aplikasi saya [petilibrary](petilibrary.adaptable.app/main/)
-
 # Tugas 3
 
 ## Jawaban
