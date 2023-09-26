@@ -14,6 +14,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
+from django.shortcuts import get_object_or_404
+
 # Create your views here.
 
 @login_required(login_url='/login')
@@ -26,7 +28,7 @@ def show_main(request):
         'class': 'PBP A',
         'items': items,
         'jumlah_item' : jumlah_item,
-        'last_login': request.COOKIES['last_login'],
+        'last_login': request.COOKIES.get('last_login'),
     }
 
     return render(request, "main.html", context)
@@ -93,4 +95,24 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return response
 
-# def increase_amount():
+def increase_amount(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+    item.amount += 1
+    item.save()
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+def decrease_amount(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+
+    if item.amount > 0:
+        item.amount -= 1
+        item.save()
+
+    if item.amount == 0:
+        item.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+def delete_item(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+    item.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
