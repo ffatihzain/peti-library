@@ -14,7 +14,7 @@
 - **Kelebihan**
     - Mudah Digunakan : Formulir ini sangat mudah digunakan dan cepat diimplementasikan dalam proyek Django karena hanya perlu mengimpor dan memasukkan ke dalam _view_ dan template yang diinginkan.
     - Integrasi dengan Django : UserCreationForm terintegrasi secara baik dengan sistem autentikasi bawaan Django, sehingga memudahkan manajemen pengguna, autentikasi, dan otorisasi dalam aplikasi.
-    - 
+    - Keamanan Terjamin: Django UserCreationForm sudah memasukkan mekanisme keamanan yang umumnya diperlukan untuk mencegah serangan sehingga kebocoran atau pencurian data dapat dicegah. Serangan seperti SQL injection dan cross-site scripting (XSS) umum terjadi apabila tidak ada tindakan preventif yang menghalanginya.
 - **Kekurangan**
     - Field yang Terbatas : UserCreationForm hanya memiliki _field_ terbatas yaitu username dan password yang telah diberikan secara _default_. misal kita ingin menambahkan verifikasi email tidak akan bisa karena tidak terdapat _field_ email _default_, sehingga kita harus menambahkan secara manual.
     - Terbatas pada Pembuatan Akun : Formulir ini hanya dikhususkan untuk membuat akun user baru. Oleh karena itu, kita hanya bisa mengimplementasikan fitur tersebut, sehingga untuk menambahkan fitur pengelolaan profil atau pengeditan profil harus membuat formulir khusus hal tersebut.
@@ -77,6 +77,8 @@ Penggunaan _cookies_ secara _default_ dalam pengembangan web relatif aman, namun
     - Masukkan _path url_ logout yang telah diimport tadi ke dalam `urlpatterns`.
 
 2. Membuat **dua** akun pengguna dengan masing-masing **tiga** dummy data menggunakan model yang telah dibuat pada aplikasi sebelumnya untuk setiap akun **di lokal**
+<img src="/assets/user1 tugas 4.png">
+<img src="/assets/user2 tugas 4.png">
 
 3. Menghubungkan model `Item` dengan `User`
     - Menambahkan import `User` pada `models.py`
@@ -102,6 +104,10 @@ Penggunaan _cookies_ secara _default_ dalam pengembangan web relatif aman, namun
         - `response = HttpResponseRedirect(reverse('main:login'))`
         - `response.delete_cookie('last_login')`
         - `return response`
+
+5. Merestriksi akses halaman main pada masing-masing user
+    - Tambahkan import `login_required` pada `views.py`
+    - Menambahkan kode `@login_required(login_url='/login')` tepat diatas fungsi `show_main` agar halaman _main_ hanya dapat diakses oleh user yang sudah login.
 
 
 # Tugas 3
