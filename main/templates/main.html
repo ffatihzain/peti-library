@@ -29,7 +29,27 @@
                 <td>{{item.description}}</td>
                 <td>{{item.category}}</td>
                 <td>{{item.date_added}}</td>
-                
+                <td>
+                    <a href="{% url 'main:increase_amount' item.id %}">
+                        <button>
+                            Add Amount
+                        </button>
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url 'main:decrease_amount' item.id %}">
+                        <button>
+                            Remove Amount
+                        </button>
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url 'main:delete_item' item.id %}">
+                        <button>
+                            Delete Item
+                        </button>
+                    </a>
+                </td>
             </tr>
         {% endfor %}
     </table>
