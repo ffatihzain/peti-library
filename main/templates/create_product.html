@@ -1,19 +1,73 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block content %}
-<h1>Add New Book</h1>
+    <style>
+        body {
+            background-color: #191729;
+        }
 
-<form method="POST">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-        <tr>
-            <td></td>
-            <td>
-                <input type="submit" value="Add Book"/>
-            </td>
-        </tr>
-    </table>
-</form>
+        .container-box {
+            background-color: #f0f0f4;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease; 
+        }
 
-{% endblock %}
+        .container-box:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); 
+        }
+
+        .transparent-btn {
+            background-color: rgba(37, 218, 122, 0.5) !important;
+            border: none;
+            color: #000000;
+        }
+
+        .transparent-btn:hover {
+            background-color: rgba(170, 151, 151, 0.7) !important;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+        }
+
+        .btn-delete {
+            background-color: #c94b4b !important;
+            border: none;
+            color: #fff;
+        }
+
+        .btn-delete:hover {
+            background-color: #9b3838 !important;
+        }
+    </style>
+
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">Peti Lib</a>
+            <a href="{% url 'main:logout' %}">
+                <button class="btn btn-dark" type="button">Logout</button>
+            </a>
+        </div>
+    </nav>
+
+    <div class="container-box">
+        <h1 class="text-center">Add New Book</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" class="btn btn-secondary btn-sm" value="Add Book"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+{% endblock content %}

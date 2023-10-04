@@ -1,74 +1,120 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Peti Library's Guide</h1>
+    <style>
+        body {
+            background-color: #191729; /* Warna latar belakang di luar kotak tengah */
+        }
 
-    <h5>Name:</h5>
-    <p>{{ name }}</p>
+        .container-box {
+            background-color: #f0f0f4; /* Warna latar belakang kotak tengah */
+            max-width: 1200px;
+            margin: 50px auto; /* Ratakan kotak ke tengah */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Efek bayangan (shadow) */
+            transition: box-shadow 0.3s ease; /* Efek transisi pada hover */
+        }
 
-    <h5>Class:</h5>
-    <p>{{ class }}</p>
+        .container-box:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Bayangan lebih tebal saat dihover */
+        }
 
-    <p>Kamu menyimpan {{ jumlah_item }} buku pada aplikasi ini</p>
+        .transparent-btn {
+            background-color: rgba(37, 218, 122, 0.5) !important; /* Button merah transparan */
+            border: none;
+            color: #000000;
+        }
 
+        .transparent-btn:hover {
+            background-color: rgba(170, 151, 151, 0.7) !important; /* Button merah transparan saat dihover */
+        }
 
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Amount</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Date Added</th>
-        </tr>
-        
+        .navbar-brand {
+            font-weight: bold; /* Membuat tulisan navbar-brand tebal */
+        }
 
-        {% for item in items %}
-            <tr>
-                <td>{{item.name}}</td>
-                <td>{{item.amount}}</td>
-                <td>{{item.description}}</td>
-                <td>{{item.category}}</td>
-                <td>{{item.date_added}}</td>
-                <td>
-                    <a href="{% url 'main:increase_amount' item.id %}">
-                        <button>
-                            Add Amount
-                        </button>
-                    </a>
-                </td>
-                <td>
-                    <a href="{% url 'main:decrease_amount' item.id %}">
-                        <button>
-                            Remove Amount
-                        </button>
-                    </a>
-                </td>
-                <td>
-                    <a href="{% url 'main:delete_item' item.id %}">
-                        <button>
-                            Delete Item
-                        </button>
-                    </a>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+        .btn-delete {
+            background-color: #c94b4b !important; /* Merah untuk tombol Delete Item */
+            border: none;
+            color: #fff;
+        }
 
-    <br />
+        .btn-delete:hover {
+            background-color: #9b3838 !important; /* Warna merah lebih tua saat dihover */
+        }
+    </style>
 
-    <h5>Sesi terakhir login: {{ last_login }}</h5>
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">Peti Lib</a>
+            <a class="navbar-brand"><strong>Welcome, {{name}}!</strong></a>
+            <a href="{% url 'main:logout' %}">
+                <button class="btn btn-dark" type="button">Logout</button>
+            </a>
+        </div>
+    </nav>
 
-    <a href="{% url 'main:create_item' %}">
-        <button>
-            Add New Book
-        </button>
-    </a>
+    <div class="container-box">
+        <h1 class="text-center">Peti Library's Guide</h1>
 
+        <h5>Name:</h5>
+        <p>{{ name }}</p>
 
-    <a href="{% url 'main:logout' %}">
-        <button>
-            Logout
-        </button>
-    </a>
+        <h5>Class:</h5>
+        <p>{{ class }}</p>
 
+        <p>Kamu menyimpan {{ jumlah_item }} buku pada aplikasi ini</p>
+
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Date Added</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{item.name}}</td>
+                        <td>{{item.amount}}</td>
+                        <td>{{item.description}}</td>
+                        <td>{{item.category}}</td>
+                        <td>{{item.date_added}}</td>
+                        <td>
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'main:increase_amount' item.id %}" class="btn transparent-btn btn-sm">
+                                    Increase
+                                </a>
+                                <a href="{% url 'main:decrease_amount' item.id %}" class="btn transparent-btn btn-sm">
+                                    Decrease
+                                </a>
+                                <a href="{% url 'main:delete_item' item.id %}" class="btn btn-delete btn-sm">
+                                    Delete Item
+                                </a>
+                                <a href="{% url 'main:edit_item' item.id %}" class="btn btn-warning btn-sm">
+                                    Edit
+                                </a>
+                                
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br />
+
+        <h6 class="text-right text-muted login-info">Sesi terakhir login: {{ last_login }}</h6>
+
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'main:create_item' %}" class="btn btn-secondary btn-sm">
+                Add New Book
+            </a>
+        </div>
+    </div>
 {% endblock content %}

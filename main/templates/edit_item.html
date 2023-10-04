@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<style>
+    body {
+        background-color: #191729; /* Warna latar belakang di luar kotak tengah */
+    }
+
+    .container-box {
+        background-color: #f0f0f4; /* Warna latar belakang kotak tengah */
+        max-width: 1200px;
+        margin: 50px auto; /* Ratakan kotak ke tengah */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Efek bayangan (shadow) */
+        transition: box-shadow 0.3s ease; /* Efek transisi pada hover */
+    }
+
+    .container-box:hover {
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Bayangan lebih tebal saat dihover */
+    }
+
+    .transparent-btn {
+        background-color: rgba(37, 218, 122, 0.5) !important; /* Button merah transparan */
+        border: none;
+        color: #000000;
+    }
+
+    .transparent-btn:hover {
+        background-color: rgba(170, 151, 151, 0.7) !important; /* Button merah transparan saat dihover */
+    }
+
+    .navbar-brand {
+        font-weight: bold; /* Membuat tulisan navbar-brand tebal */
+    }
+
+    .btn-delete {
+        background-color: #c94b4b !important; /* Merah untuk tombol Delete Item */
+        border: none;
+        color: #fff;
+    }
+
+    .btn-delete:hover {
+        background-color: #9b3838 !important; /* Warna merah lebih tua saat dihover */
+    }
+</style>
+
+<nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand">Peti Lib</a>
+        <a href="{% url 'main:logout' %}">
+            <button class="btn btn-dark" type="button">Logout</button>
+        </a>
+    </div>
+</nav>
+
+<div class="container-box">
+    <h1 class="text-center">Edit Book</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" class="btn btn-secondary btn-sm" value="Edit Book"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+{% endblock content %}
+
