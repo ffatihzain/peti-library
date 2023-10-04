@@ -3,7 +3,87 @@
 ## PBP A - 2206824073
 
 
-## Tugas 4
+# Tugas 5
+
+## Jawaban
+
+### Jelaskan manfaat dari setiap element selector dan kapan waktu yang tepat untuk menggunakannya.
+
+1. **Element Selector** : Selector ini bertujuan untuk memilih elemen di dalam elemen dari tipe spesifik. Selector memungkinkan pengguna untuk memberikan _style_ atau aturan tertentu kepada semua elemen yang sesuai dengan tipe tersebut pada website. Contoh :
+```
+p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+```
+Selector menargetkan seluruh elemen `<P>` atau paragraph
+
+2. Class Selector : Selector ini bertujuan untuk memilih satu atau lebih elemen berdasarkan nama kelas yang ditetapkan dalam atribut `class`. Selector ini digunakan ketika kita ingin menambahkan _style_ atau aturan untuk satu atau lebih elemen dari kelas spesifik sehingga bisa dipakai secara berulang ketika kita mengakses lagi class tersebut. Contoh :
+```
+.button {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 15px;
+}
+```
+Selector menargetkan seluruh elemen pada class `button`
+
+3. ID Selector : Selector ini bertujuan untuk memilih elemen secara individu dengan nilai atribut `id` spesifik. Selector ini digunakan ketika kita ingin menambahkan _style_ secara unik sehingga hanya `id` itu saja yang memiliki _style_ tersebut. Contoh :
+```
+#header {
+  font-size: 24px;
+  color: #2c3e50;
+  text-align: center;
+}
+```
+Selector menargetkan elemen `header` secara individual.
+
+
+### Jelaskan HTML5 Tag yang kamu ketahui.
+
+- `html` : Menandakan awal dan akhir dari dokumen HTML.
+- `title` : Menentukan judul dari dokumen HTML.
+- `head` : Menyediakan informasi mengenai dokumen HTML.
+- `h1`- `h6` : Biasa digunakan untuk membuat judul dari dokumen HTML dengan ukuran yang berbeda-beda.
+- `p` : Menandakan awal paragraf pada HTML.
+- `button` : Membentuk tombol yang dapat di-klik pada HTML.
+- `br` : Atau break line digunakan untuk memberi space kosong pada suatu baris.
+- `table` : Membuat tabel yang berisi baris dan kolom pada HTML.
+- `div` : Menandai sebuah section.
+
+
+### Jelaskan perbedaan antara margin dan padding.
+
+Margin : ruang di sekitar elemen HTML yang memisahkan elemen dari elemen lain di sekitarnya.
+**Perbedaan**
+- Berguna untuk mengatur jarak antar elemen
+- Menambahkan ruang di luar elemen, sehingga memperbesar total ukuran elemen
+- Memengaruhi penempatan elemen terhadap elemen lain di sekitarnya.
+- Dapat menggunakan nilai negatif, yang akan mengarahkan elemen lebih dekat satu sama lain.
+
+Padding : ruang di sekitar konten dan elemen HTML, di antara konten dan batas elemen tersebut.
+**Perbedaan**
+- Berguna untuk menambah ruang internal sebuah elemen
+- Menambahkan ruang di dalam elemen, tetapi ukuran elemen tetapi sama
+- Memengaruhi penempatan konten dalam elemen
+- Tidak dapat memiliki nilai negatif
+
+
+
+### Jelaskan perbedaan antara framework CSS Tailwind dan Bootstrap. Kapan sebaiknya kita menggunakan Bootstrap daripada Tailwind, dan sebaliknya.
+
+Tailwind adalah framework yang mengadopsi pendekatan "utility-first" dimana pengguna membangun desain dengan menggabungkan kelas utilitas ke dalam elemen HTML. Tailwind menyediakan fleksibilitas dan kebebasan, framework ini menawarkan banyak kustomisasi spesifik. Oleh karena itu, Penggunaan Tailwind sudah pasti lebih lama dan butuh pemahaman yang lebih. Sedangkan Bootstrap menawarkan set class CSS dan komponen yang telah dirancang sebelumnya. Bootstrap memiliki kerangka kerja yang lebih terstruktur dengan banyak komponen rancangan, sehingga memberikan stabilitas dan kemudahan bagi pengguna. Tetapi, Bootstrap memiliki batasan dalam hal fleksibilitas desain yang unik. Kita bisa menggunakan Bootstrap ketika ingin membuat website simpel yang tidak membutuhkan banyak kustomisasi dalam CSS. Sedangkan Tailwind cocok digunakan ketika kita mau membuat website dengan banyak kustomisasi.
+
+
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+
+- main.html
+    -
+
+
+
+# Tugas 4
 
 ## Jawaban
 
