@@ -78,8 +78,42 @@ Tailwind adalah framework yang mengadopsi pendekatan "utility-first" dimana peng
 
 ### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 
-- main.html
-    -
+- **main.html**
+    - Menambahkan `body` di paling atas yang berisi warna background.
+    - Membuat class `.container box` yang diisi format seperti background color untuk menentukan warna, width, margin, dan padding untuk menentukan _placement_ dari box, serta tambahan lain seperti border radius, box shadow, dan transition.
+    - Membuat class `.container box:hover` karena saya ingin menambahkan kesan hover ketika user berfokus ke box.
+    - Membuat class `.transparent-btn` dan `transparent-btn:hover` untuk membentuk format button yang nanti akan dipakai. Format yang dimaksud adalah background color dan border.
+    - Membuat class `navbar` dengan warna dark dengan tulisan `Peti Lib` di paling kiri, `Welcome, {name}!` di tengah, dan tombol `logout` di paling kanan.
+    - Memberi isi pada class `container box` yaitu _title_ `Peti Library's Guide` beserta isi umum main.html yaitu tabel, nama, kelas, dll.
+    - Menambahkan variasi warna pada button sehingga lebih cocok dengan background color. Contoh : button `Add New Book` menggunakan _secondary_ sebagai tema.
+
+- **login.html**
+    - Menambahkan `body` di paling atas yang berisi warna background, margin, justify content, align-items, dan height.
+    - Membuat class `.container box` yang diisi format seperti background color untuk menentukan warna, width dan padding untuk menentukan _placement_ dari box, serta tambahan seperti border radius, box shadow, dan transition.
+    - Membuat class `login form` dan `login button` untuk membuat template format form dan button login.
+    - Membuat class `register link` untuk memberikan link apabila user belum memiliki akun dan harus register.
+    - Implementasi class-class diatas dan mengisinya dengan konten yang sesuai.
+- **register.html**
+    - Menambahkan `body` di paling atas yang berisi warna background, margin, justify content, align-items, dan height.
+    - Membuat class `.container box` yang diisi format seperti background color untuk menentukan warna, width, margin, dan padding untuk menentukan _placement_ dari box, serta tambahan lain seperti border radius, box shadow, dan transition.
+    - Membuat class `register form` dan `register button` untuk membuat template format form dan button register.
+    - Membuat class `login link` untuk memberikan link apabila ternyata user sudah memiliki akun.
+    - Implementasi class-class diatas dan mengisinya dengan konten yang sesuai.
+- **create_product.html**
+    - Menambahkan `body` di paling atas yang berisi warna background.
+    - Membuat class `.container box` yang diisi format seperti background color untuk menentukan warna, width, margin, dan padding untuk menentukan _placement_ dari box, serta tambahan lain seperti border radius, box shadow, dan transition.
+    - Membuat class `.transparent-btn` yang berisi template untuk button yang dipakai dibawah.
+    - membuat class `btn-delete` dan `btn-delete:hover` untuk membuat template bagi button delete.
+    - Membuat class `navbar` dengan warna dark dengan tulisan `Peti Lib` di paling kiri dan tombol `logout` di paling kanan.
+    - Implementasi class-class diatas dan mengisinya dengan konten yang sesuai.
+- **edit_item.html**
+    - Menambahkan `body` di paling atas yang berisi warna background.
+    - Membuat class `.container box` yang diisi format seperti background color untuk menentukan warna, width, margin, dan padding untuk menentukan _placement_ dari box, serta tambahan lain seperti border radius, box shadow, dan transition.
+    - Membuat class `.transparent-btn` yang berisi template untuk button yang dipakai dibawah.
+    - membuat class `btn-delete` dan `btn-delete:hover` untuk membuat template bagi button delete.
+    - embuat class `navbar` dengan warna dark dengan tulisan `Peti Lib` di paling kiri dan tombol `logout` di paling kanan.
+    - Implementasi class-class diatas dan mengisinya dengan konten yang sesuai.
+
 
 
 
