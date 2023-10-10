@@ -172,7 +172,7 @@
         }
 
         refreshItems();
-        function addProduct() {
+        function addItem() {
             fetch("{% url 'main:add_item_ajax' %}", {
                 method: "POST",
                 body: new FormData(document.querySelector('#form'))
@@ -184,7 +184,7 @@
             return false;
         }
         document.addEventListener("DOMContentLoaded", refreshItemCount);
-        document.getElementById("button_add").onclick = addProduct;
+        document.getElementById("button_add").onclick = addItem;
 
         async function increaseAmount(itemId) {
             await fetch(`/increase_amount/${itemId}/`);

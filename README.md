@@ -3,6 +3,9 @@
 ## PBP A - 2206824073
 
 
+<details open>
+<summary>Tugas 6</summary>
+
 # Tugas 6
 
 ## Jawaban
@@ -47,6 +50,167 @@ Menurut pendapat saya, implementasi AJAX yang lebih cocok digunakan sebenarnya b
 
 ### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 
+**Mengubah tugas 5 yang telah dibuat sebelumnya menjadi menggunakan AJAX.**
+
+- AJAX GET
+    - Ubahlah kode tabel data item agar dapat mendukung AJAX GET.
+        - Menghapus _table_ di `main.html` dan menggantinya dengan kode berikut
+        ```
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+            </thead>
+            <tbody id="product_table">
+            </tbody>
+        </table>
+        ```
+        Sesuaikan dengan penataan pada html sebelumnya.
+    - Lakukan pengambilan task menggunakan AJAX GET.
+        - Membuat fungsi baru pada `views.py` dengan nama `get_product_json` yang berfungsi untuk mengambil item (dalam kasus saya buku) yang tersimpan untuk setiap user.
+        ```
+        def get_product_json(request):
+            product_item = Item.objects.filter(user=request.user)
+            return HttpResponse(serializers.serialize('json', product_item))
+        ```
+        - Membuat `<script>` di `main.html` yang berisi
+        ```
+        async function getItems() {
+            return fetch("{% url 'main:get_product_json' %}").then((res) => res.json());
+        }
+        ```
+
+- AJAX POST
+    - Buatlah sebuah tombol yang membuka sebuah modal dengan form untuk menambahkan item.
+        - Pertama-tama, menambahkan kode di `main.html` untuk implementasi modal pada aplikasi, hal-hal utama pada tabel akan didefinisikan.
+        ```
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Book</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form" onsubmit="return false;">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="name" class="col-form-label">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name"></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="amount" class="col-form-label">Amount:</label>
+                                <input type="number" class="form-control" id="amount" name="amount"></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="col-form-label">Description:</label>
+                                <textarea class="form-control" id="description" name="description"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="category" class="col-form-label">Category:</label>
+                                <textarea class="form-control" id="category" name="category"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-warning" id="button_add" data-bs-dismiss="modal">Add Book</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        ```
+        - Menambahkan button untuk menampilkan modal ketika kita ingin menambah buku.
+        ```
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add Book by AJAX
+            </button>
+        </div>
+        ```
+    - Buatlah fungsi view baru untuk menambahkan item baru ke dalam basis data.
+        - Membuat fungsi `add_item_ajax` pada `views.py`
+        ```
+        @csrf_exempt
+        def add_item_ajax(request):
+            if request.method == 'POST':
+                name = request.POST.get("name")
+                amount = request.POST.get("amount")
+                description = request.POST.get("description")
+                category = request.POST.get("category")
+                user = request.user
+
+                new_product = Item(name=name, amount=amount, description=description, category=category, user=user)
+                new_product.save()
+
+                return HttpResponse(b"CREATED", status=201)
+
+            return HttpResponseNotFound()
+        ```
+    - Buatlah path /create-ajax/ yang mengarah ke fungsi view yang baru kamu buat.
+        - Pada `urls.py` tambahkan import dan routing untuk fungsi `get_item_json` dan `add_item_ajax`.
+    - Hubungkan form yang telah kamu buat di dalam modal kamu ke path `/create-ajax/`.
+        - Menambahkan fungsi `addItem()` pada `<script>` di `main.html` untuk mengirimkan data item baru yang diambil dari form modal.
+        ```
+        function addItem() {
+            fetch("{% url 'main:add_item_ajax' %}", {
+                method: "POST",
+                body: new FormData(document.querySelector('#form'))
+            }).then(() => {
+                refreshItems();
+                refreshItemCount();
+            });
+            document.getElementById("form").reset();
+            return false;
+        }
+        ```
+    - Lakukan refresh pada halaman utama secara asinkronus untuk menampilkan daftar item terbaru tanpa reload halaman utama secara keseluruhan.
+        - Menambahkan fungsi `refreshItems()` pada `<script>` untuk menampilkan data item ketika ada perubahan secara asinkronus.
+        ```
+        async function refreshItems() {
+            document.getElementById("product_table").innerHTML = "";
+            const products = await getItems();
+            let htmlString = `<tr>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Date Added</th>
+                <th>Actions</th>
+            </tr>`;
+            products.forEach((item) => {
+                htmlString += `\n<tr>
+                <td>${item.fields.name}</td>
+                <td>${item.fields.amount}</td>
+                <td>${item.fields.description}</td>
+                <td>${item.fields.category}</td>
+                <td>${item.fields.date_added}</td>
+                <td>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn transparent-btn btn-sm" onclick="increaseAmount(${item.pk})">Increase</button>
+                        <button class="btn transparent-btn btn-sm" onclick="decreaseAmount(${item.pk})">Decrease</button>
+                        <button class="btn btn-danger btn-sm" data-url="{% url 'main:delete_item_ajax' 1 %}" onclick="deleteItem(this, ${item.pk})">Delete</button>
+                    </div>
+                </td>
+            </tr>`;
+            });
+
+            document.getElementById("product_table").innerHTML = htmlString;
+        }
+        ```
+        - Menambahkan fungsi `refreshItemCount()` pada `<script>` untuk menghitung data item ketika ada perubahan jumlah.
+- Melakukan perintah collectstatic.
+    - Menambahkan beberapa kode di `settings.py`
+    ```
+    import os
+    .
+    .
+    .
+
+    STATIC_URL = 'static/'
+
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    ```
+    - Menjalankan `python manage.py collectsstatic` pada _command prompt_.
+</details>
 
 
 <details open>
@@ -165,6 +329,8 @@ Tailwind adalah framework yang mengadopsi pendekatan "utility-first" dimana peng
 </details>
 
 
+<details open>
+<summary>Tugas 4</summary>
 
 # Tugas 4
 
@@ -271,7 +437,10 @@ Penggunaan _cookies_ secara _default_ dalam pengembangan web relatif aman, namun
 5. Merestriksi akses halaman main pada masing-masing user
     - Tambahkan import `login_required` pada `views.py`
     - Menambahkan kode `@login_required(login_url='/login')` tepat diatas fungsi `show_main` agar halaman _main_ hanya dapat diakses oleh user yang sudah login.
+</details>
 
+<details open>
+<summary>Tugas 3</summary>
 
 # Tugas 3
 
@@ -359,8 +528,10 @@ pada `urls.py` dalam direktori `main` memasukkan kode  `path('json/<int:id>/', s
 <img src="/assets/postman localhost json.png">
 <img src="/assets/postman localhost xml id.png">
 <img src="/assets/postman localhost json id.png">
+</details>
 
-
+<details open>
+<summary>Tugas 2</summary>
 
 # Tugas 2
 
@@ -422,3 +593,4 @@ Penggunaan virtual environment tidak wajib dilakukan dan kita tetap dapat membua
 - `MVVM` atau `Model-View-ViewModel` adalah arsitektur yang terdiri dari tiga komponen Model, View, dan ViewModel. Model mengelola data dan logika aplikasi, View menampilkan data dari Model, dan ViewModel mengambil data dari Model dan melakukan formatting sehingga dapat ditampilkan dengan baik pada View.
 
 Perbedaan dari ketiganya adalah MVC terfokus pada pengendalian alur kerja aplikasi, MVT memanfaatkan template untuk menggabungkan data dan view (tampilan), dan MVVM memisahkan View dan ViewModel dengan jelas.
+</details>
