@@ -25,13 +25,16 @@ _Synchronous Programming_
 - bersifat _single-threaded_, atau menggunakan satu _thread_ untuk mengeksekusi semua tugas.
 - Cocok digunakan pada tugas ringan dan sederhana yang tidak memerlukan jeda.
 
+
 ### Dalam penerapan JavaScript dan AJAX, terdapat penerapan paradigma event-driven programming. Jelaskan maksud dari paradigma tersebut dan sebutkan salah satu contoh penerapannya pada tugas ini.
 
 Paradigma event-driven programming adalah sebuah pendekatan dalam pemrograman di mana program merespons peristiwa atau _event_ yang terjadi pada sistem atau aplikasi. Ini berarti bahwa program akan menjalankan tindakan tertentu ketika suatu kejadian atau peristiwa khusus terjadi, tanpa harus menjalankan kode secara manual atau berurutan. Hal ini dapat berupa interaksi pengguna, seperti mengklik tombol, mengisi formulir, atau menggulir halaman web. Pada tugas ini, salah satu contoh paradigma yang dapat terlihat adalah ketika kita melakukan klik pada _button_ `Add Book` atau `Edit` yang memicu _event_ `addItem()` atau `editItem()`.
 
+
 ### Jelaskan penerapan asynchronous programming pada AJAX.
 
 Pada AJAX, asynchronous programming digunakan untuk mengirim dan menerima data dari server background, sehingga halaman web tidak perlu dimuat ulang. Hal ini membuat aplikasi web menjadi lebih responsif terhadap interaksi pengguna. Alurnya adalah data dikirim ke server menggunakan metode asynchronous, seperti XHR atau Fetch. Setelah permintaan dikirim, JavaScript akan melanjutkan eksekusi kodenya, sehingga halaman web tidak perlu dimuat ulang.
+
 
 ### Pada PBP kali ini, penerapan AJAX dilakukan dengan menggunakan Fetch API daripada library jQuery. Bandingkanlah kedua teknologi tersebut dan tuliskan pendapat kamu teknologi manakah yang lebih baik untuk digunakan.
 
@@ -209,7 +212,6 @@ Menurut pendapat saya, implementasi AJAX yang lebih cocok digunakan sebenarnya b
 
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     ```
-    - Menjalankan `python manage.py collectsstatic` pada _command prompt_.
 </details>
 
 
