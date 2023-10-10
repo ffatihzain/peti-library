@@ -64,52 +64,60 @@
         <h5>Class:</h5>
         <p>{{ class }}</p>
 
-        <p>Kamu menyimpan {{ jumlah_item }} buku pada aplikasi ini</p>
+        <p>Kamu menyimpan <span id="jumlah_item">{{ jumlah_item }}</span> buku pada aplikasi ini</p>
 
         <table class="table table-bordered table-hover">
             <thead class="thead-dark">
-                <tr>
-                    <th>Name</th>
-                    <th>Amount</th>
-                    <th>Description</th>
-                    <th>Category</th>
-                    <th>Date Added</th>
-                    <th>Actions</th>
-                </tr>
             </thead>
-            <tbody>
-                {% for item in items %}
-                    <tr>
-                        <td>{{item.name}}</td>
-                        <td>{{item.amount}}</td>
-                        <td>{{item.description}}</td>
-                        <td>{{item.category}}</td>
-                        <td>{{item.date_added}}</td>
-                        <td>
-                            <div class="d-flex justify-content-between">
-                                <a href="{% url 'main:increase_amount' item.id %}" class="btn transparent-btn btn-sm">
-                                    Increase
-                                </a>
-                                <a href="{% url 'main:decrease_amount' item.id %}" class="btn transparent-btn btn-sm">
-                                    Decrease
-                                </a>
-                                <a href="{% url 'main:delete_item' item.id %}" class="btn btn-delete btn-sm">
-                                    Delete Item
-                                </a>
-                                <a href="{% url 'main:edit_item' item.id %}" class="btn btn-warning btn-sm">
-                                    Edit
-                                </a>
-                                
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
+            <tbody id="product_table">
             </tbody>
         </table>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Book</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form" onsubmit="return false;">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="name" class="col-form-label">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name"></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="amount" class="col-form-label">Amount:</label>
+                                <input type="number" class="form-control" id="amount" name="amount"></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="col-form-label">Description:</label>
+                                <textarea class="form-control" id="description" name="description"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="category" class="col-form-label">Category:</label>
+                                <textarea class="form-control" id="category" name="category"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-warning" id="button_add" data-bs-dismiss="modal">Add Book</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <br />
 
         <h6 class="text-right text-muted login-info">Sesi terakhir login: {{ last_login }}</h6>
+
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add Book by AJAX
+            </button>
+        </div>
 
         <div class="d-flex justify-content-center">
             <a href="{% url 'main:create_item' %}" class="btn btn-secondary btn-sm">
@@ -117,4 +125,78 @@
             </a>
         </div>
     </div>
+
+    <script>
+        async function getItems() {
+            return fetch("{% url 'main:get_product_json' %}").then((res) => res.json());
+        }
+
+        async function refreshItems() {
+            document.getElementById("product_table").innerHTML = "";
+            const products = await getItems();
+            let htmlString = `<tr>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Date Added</th>
+                <th>Actions</th>
+            </tr>`;
+            products.forEach((item) => {
+                htmlString += `\n<tr>
+                <td>${item.fields.name}</td>
+                <td>${item.fields.amount}</td>
+                <td>${item.fields.description}</td>
+                <td>${item.fields.category}</td>
+                <td>${item.fields.date_added}</td>
+                <td>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn transparent-btn btn-sm" onclick="increaseAmount(${item.pk})">Increase</button>
+                        <button class="btn transparent-btn btn-sm" onclick="decreaseAmount(${item.pk})">Decrease</button>
+                        <button class="btn btn-danger btn-sm" data-url="{% url 'main:delete_item_ajax' 1 %}" onclick="deleteItem(this, ${item.pk})">Delete</button>
+                    </div>
+                </td>
+            </tr>`;
+            });
+
+            document.getElementById("product_table").innerHTML = htmlString;
+        }
+
+        async function refreshItemCount() {
+            const response = await fetch("{% url 'main:get_product_json' %}");
+            const products = await response.json();
+            const jumlah_item = products.length;
+
+            // Memperbarui nilai jumlah_item di HTML
+            document.getElementById("jumlah_item").innerText = jumlah_item;
+        }
+
+        refreshItems();
+        function addProduct() {
+            fetch("{% url 'main:add_item_ajax' %}", {
+                method: "POST",
+                body: new FormData(document.querySelector('#form'))
+            }).then(() => {
+                refreshItems();
+                refreshItemCount();
+            });
+            document.getElementById("form").reset();
+            return false;
+        }
+        document.addEventListener("DOMContentLoaded", refreshItemCount);
+        document.getElementById("button_add").onclick = addProduct;
+
+        async function increaseAmount(itemId) {
+            await fetch(`/increase_amount/${itemId}/`);
+            refreshItems();
+            refreshItemCount();
+        }
+
+        async function decreaseAmount(itemId) {
+            await fetch(`/decrease_amount/${itemId}/`);
+            refreshItems();
+            refreshItemCount();
+        }
+
+    </script>
 {% endblock content %}
