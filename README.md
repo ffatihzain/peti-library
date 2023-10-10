@@ -3,6 +3,55 @@
 ## PBP A - 2206824073
 
 
+# Tugas 6
+
+## Jawaban
+
+### Jelaskan perbedaan antara _asynchronous programming_ dengan _synchronous programming_.
+
+_Asynchronous Programming_
+- Program dapat berjalan tanpa harus menunggu tugas yang memakan waktu selesai.
+- Dapat mengeksekusi banyak program secara bersamaan.
+- Dapat melibatkan _multi-threaded_ pada beberapa implementasi, khususnya pada server.
+- Menggunakan konsep callback untuk menangani tugas yang memerlukan waktu lama.
+- Cocok digunakan untuk operasi I/O yang mungkin memerlukan waktu lama, seperti mengunduh file dari internet.
+
+_Synchronous Programming_
+- Program berjalan secara berurutan, satu tugas setelah yang lain.
+- Program dieksekusi baris per baris dari atas ke bawah.
+- bersifat _single-threaded_, atau menggunakan satu _thread_ untuk mengeksekusi semua tugas.
+- Cocok digunakan pada tugas ringan dan sederhana yang tidak memerlukan jeda.
+
+### Dalam penerapan JavaScript dan AJAX, terdapat penerapan paradigma event-driven programming. Jelaskan maksud dari paradigma tersebut dan sebutkan salah satu contoh penerapannya pada tugas ini.
+
+Paradigma event-driven programming adalah sebuah pendekatan dalam pemrograman di mana program merespons peristiwa atau _event_ yang terjadi pada sistem atau aplikasi. Ini berarti bahwa program akan menjalankan tindakan tertentu ketika suatu kejadian atau peristiwa khusus terjadi, tanpa harus menjalankan kode secara manual atau berurutan. Hal ini dapat berupa interaksi pengguna, seperti mengklik tombol, mengisi formulir, atau menggulir halaman web. Pada tugas ini, salah satu contoh paradigma yang dapat terlihat adalah ketika kita melakukan klik pada _button_ `Add Book` atau `Edit` yang memicu _event_ `addItem()` atau `editItem()`.
+
+### Jelaskan penerapan asynchronous programming pada AJAX.
+
+Pada AJAX, asynchronous programming digunakan untuk mengirim dan menerima data dari server background, sehingga halaman web tidak perlu dimuat ulang. Hal ini membuat aplikasi web menjadi lebih responsif terhadap interaksi pengguna. Alurnya adalah data dikirim ke server menggunakan metode asynchronous, seperti XHR atau Fetch. Setelah permintaan dikirim, JavaScript akan melanjutkan eksekusi kodenya, sehingga halaman web tidak perlu dimuat ulang.
+
+### Pada PBP kali ini, penerapan AJAX dilakukan dengan menggunakan Fetch API daripada library jQuery. Bandingkanlah kedua teknologi tersebut dan tuliskan pendapat kamu teknologi manakah yang lebih baik untuk digunakan.
+
+Fetch API
+    - Bagian dari JavaScript dan merupakan standar modern ringan yang digunakan untuk mengambil dan mengirim data asinkron.
+    - Menggunakan konsep Promises untuk menangani operasi asynchronous, sehingga memudahkan penanganan error dan chaining.
+    - Menyediakan kontrol yang tinggi terhadap request dan respon HTTP, sehingga memungkinkan konfigurasi yang fleksibel.
+
+jQuery
+    - Library JavaScript eksternal yang menyediakan _interface_ yang mudah digunakan untuk membuat sebuah request HTTP.
+    - Lebih tersedia berbagai fitur yang dapat digunakan.
+    - Menyediakan helper function untuk memudahkan penggunaan oleh user, juga menggunakan callback.
+    - Menyediakan sintaksis yang lebih mudah dipahami dan kepastian perilaku pada berbagai browser.
+
+Menurut pendapat saya, implementasi AJAX yang lebih cocok digunakan sebenarnya bergantung kepada preferensi penggunaannya. Untuk perseorangan atau proyek kecil, Fetch API lebih cocok dengan bantuan Promise dan lebih ringan sehingga menjadi user-friendly. Sedangkan apabila ingin mengerjakan proyek besar dan berkolaborasi dengan banyak orang, maka jQuery lebih cocok karena fitur dukungan _cross-browser compatibility_ dan fungsi bawaan yang simpel.
+
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+
+
+
+<details open>
+<summary>Tugas 5</summary>
+
 # Tugas 5
 
 ## Jawaban
@@ -113,7 +162,7 @@ Tailwind adalah framework yang mengadopsi pendekatan "utility-first" dimana peng
     - membuat class `btn-delete` dan `btn-delete:hover` untuk membuat template bagi button delete.
     - embuat class `navbar` dengan warna dark dengan tulisan `Peti Lib` di paling kiri dan tombol `logout` di paling kanan.
     - Implementasi class-class diatas dan mengisinya dengan konten yang sesuai.
-
+</details>
 
 
 

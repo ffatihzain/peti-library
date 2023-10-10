@@ -9,5 +9,4 @@ class Item(models.Model):
     category = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-
 # Create your models here.
