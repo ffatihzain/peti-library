@@ -15,6 +15,9 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             transition: box-shadow 0.3s ease;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         .container-box:hover {
@@ -100,9 +103,11 @@
 
         <p>Kamu menyimpan <span id="jumlah_item">{{ jumlah_item }}</span> buku pada aplikasi ini</p>
 
-        <div class="card-columns" id="product_cards"></div>
+        <div>
+            <div class="card-columns" id="product_cards"></div>
 
-        <div class="card-container"></div>
+            <div class="card-container"></div>
+        </div>
 
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -141,20 +146,58 @@
             </div>
         </div>
 
-        <br />
-
-        <h6 class="text-right text-muted login-info">Sesi terakhir login: {{ last_login }}</h6>
-
-        <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Add Book by AJAX
-            </button>
+        <div class="modal fade" id="exampleModalEdit" tabindex="-1" aria-labelledby="exampleModalLabelEdit" aria-hidden="true">
+            <!-- Modal "Edit" -->
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabelEdit">Edit Book</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formEdit" onsubmit="return false;">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="nameEdit" class="col-form-label">Name:</label>
+                                <input type="text" class="form-control" id="nameEdit" name="nameEdit">
+                            </div>
+                            <div class="mb-3">
+                                <label for="amountEdit" class="col-form-label">Amount:</label>
+                                <input type="number" class="form-control" id="amountEdit" name="amountEdit">
+                            </div>
+                            <div class="mb-3">
+                                <label for="descriptionEdit" class="col-form-label">Description:</label>
+                                <textarea class="form-control" id="descriptionEdit" name="descriptionEdit"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="categoryEdit" class="col-form-label">Category:</label>
+                                <textarea class="form-control" id="categoryEdit" name="categoryEdit"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-warning" id="button_edit" data-bs-dismiss="modal">Save Changes</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="d-flex justify-content-center">
-            <a href="{% url 'main:create_item' %}" class="btn btn-secondary btn-sm">
-                Add New Book
-            </a>
+        <br />
+        <div class="footer">
+            <h6 class="text-right text-muted login-info">Sesi terakhir login: {{ last_login }}</h6>
+
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Add Book by AJAX
+                </button>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'main:create_item' %}" class="btn btn-secondary btn-sm">
+                    Add New Book
+                </a>
+            </div>
         </div>
     </div>
 
@@ -250,14 +293,16 @@
             const response = await fetch(`/edit-item-ajax/${item_id}/`);
             const item = await response.json();
 
-            document.getElementById("name").value = item.fields.name;
-            document.getElementById("amount").value = item.fields.amount;
-            document.getElementById("description").value = item.fields.description;
-            document.getElementById("category").value = item.fields.category;
+            // Isi formulir modal "Edit"
+            document.getElementById("nameEdit").value = item.fields.name;
+            document.getElementById("amountEdit").value = item.fields.amount;
+            document.getElementById("descriptionEdit").value = item.fields.description;
+            document.getElementById("categoryEdit").value = item.fields.category;
 
-            // Open the modal
-            $('#exampleModal').modal('show');
+            // Buka modal "Edit"
+            $('#exampleModalEdit').modal('show');
         }
+
 
     </script>
 {% endblock content %}
