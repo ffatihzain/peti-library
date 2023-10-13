@@ -16,6 +16,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -97,23 +98,6 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return response
 
-def increase_amount(request, item_id):
-    item = get_object_or_404(Item, pk=item_id)
-    item.amount += 1
-    item.save()
-    return HttpResponseRedirect(reverse('main:show_main'))
-
-def decrease_amount(request, item_id):
-    item = get_object_or_404(Item, pk=item_id)
-
-    if item.amount > 0:
-        item.amount -= 1
-        item.save()
-
-    if item.amount == 0:
-        item.delete()
-    return HttpResponseRedirect(reverse('main:show_main'))
-
 def delete_item(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
     item.delete()
@@ -157,3 +141,41 @@ def delete_item_ajax(request, item_id):
         item.delete()
         return HttpResponse(b"DELETED", status=200)
     return HttpResponseNotFound()
+
+@csrf_exempt
+def increase_amount(request, item_id):
+    if request.method == 'POST':
+        item = get_object_or_404(Item, pk=item_id)
+        item.amount += 1
+        item.save()
+        return JsonResponse({'status': 'ok', 'amount': item.amount})
+    return HttpResponseNotFound()
+
+@csrf_exempt
+def decrease_amount(request, item_id):
+    if request.method == 'POST':
+        item = get_object_or_404(Item, pk=item_id)
+
+        if item.amount > 0:
+            item.amount -= 1
+            item.save()
+
+        if item.amount == 0:
+            item.delete()
+
+        return JsonResponse({'status': 'ok', 'amount': item.amount})
+    return HttpResponseNotFound()
+
+@csrf_exempt
+def edit_item_ajax(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+
+    if request.method == "POST":
+        form = ProductForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(b"UPDATED", status=200)
+        else:
+            return HttpResponse(b"ERROR", status=400)
+
+    return JsonResponse(serializers.serialize('json', [item]), safe=False)

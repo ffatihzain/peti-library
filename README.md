@@ -56,7 +56,7 @@ Menurut pendapat saya, implementasi AJAX yang lebih cocok digunakan sebenarnya b
 **Mengubah tugas 5 yang telah dibuat sebelumnya menjadi menggunakan AJAX.**
 
 - AJAX GET
-    - Ubahlah kode tabel data item agar dapat mendukung AJAX GET.
+    - Ubahlah kode cards data item agar dapat mendukung AJAX GET.
         - Menghapus _table_ di `main.html` dan menggantinya dengan kode berikut
         ```
         <table class="table table-bordered table-hover">

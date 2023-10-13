@@ -14,6 +14,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             transition: box-shadow 0.3s ease;
+            overflow: hidden;
         }
 
         .container-box:hover {
@@ -43,6 +44,39 @@
         .btn-delete:hover {
             background-color: #9b3838 !important;
         }
+
+        .card-container {
+            margin-bottom: 20px;
+        }
+
+        .card {
+            width: calc(33.33% - 20px);
+            margin-right: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            float: left;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 1rem;
+        }
+
+        .card-text {
+            font-size: 0.8rem;
+        }
+
+        .card-buttons {
+            margin-top: 10px;
+        }
+
+        .card-buttons button {
+            margin-right: 5px;
+        }
     </style>
 
     <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
@@ -66,12 +100,10 @@
 
         <p>Kamu menyimpan <span id="jumlah_item">{{ jumlah_item }}</span> buku pada aplikasi ini</p>
 
-        <table class="table table-bordered table-hover">
-            <thead class="thead-dark">
-            </thead>
-            <tbody id="product_table">
-            </tbody>
-        </table>
+        <div class="card-columns" id="product_cards"></div>
+
+        <div class="card-container"></div>
+
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -132,34 +164,31 @@
         }
 
         async function refreshItems() {
-            document.getElementById("product_table").innerHTML = "";
+            document.getElementById("product_cards").innerHTML = "";
             const products = await getItems();
-            let htmlString = `<tr>
-                <th>Name</th>
-                <th>Amount</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Date Added</th>
-                <th>Actions</th>
-            </tr>`;
-            products.forEach((item) => {
-                htmlString += `\n<tr>
-                <td>${item.fields.name}</td>
-                <td>${item.fields.amount}</td>
-                <td>${item.fields.description}</td>
-                <td>${item.fields.category}</td>
-                <td>${item.fields.date_added}</td>
-                <td>
-                    <div class="d-flex justify-content-between">
-                        <button class="btn transparent-btn btn-sm" onclick="increaseAmount(${item.pk})">Increase</button>
-                        <button class="btn transparent-btn btn-sm" onclick="decreaseAmount(${item.pk})">Decrease</button>
-                        <button class="btn btn-danger btn-sm" data-url="{% url 'main:delete_item_ajax' 1 %}" onclick="deleteItem(this, ${item.pk})">Delete</button>
-                    </div>
-                </td>
-            </tr>`;
-            });
 
-            document.getElementById("product_table").innerHTML = htmlString;
+            products.forEach((item) => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                
+                card.innerHTML = `
+                    <div class="card-body">
+                        <h5 class="card-title">${item.fields.name}</h5>
+                        <p class="card-text">Amount: ${item.fields.amount}</p>
+                        <p class="card-text">Description: ${item.fields.description}</p>
+                        <p class="card-text">Category: ${item.fields.category}</p>
+                        <p class="card-text">Date Added: ${item.fields.date_added}</p>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn transparent-btn btn-sm" onclick="increaseAmount(${item.pk})">Increase</button>
+                            <button class="btn transparent-btn btn-sm" onclick="decreaseAmount(${item.pk})">Decrease</button>
+                            <button class="btn btn-info btn-sm" onclick="editItem(${item.pk})">Edit</button>
+                            <button class="btn btn-danger btn-sm" data-url="{% url 'main:delete_item_ajax' 123 %}" onclick="deleteItem(this, ${item.pk})">Delete</button>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById("product_cards").appendChild(card);
+            });
         }
 
         async function refreshItemCount() {
@@ -167,7 +196,6 @@
             const products = await response.json();
             const jumlah_item = products.length;
 
-            // Memperbarui nilai jumlah_item di HTML
             document.getElementById("jumlah_item").innerText = jumlah_item;
         }
 
@@ -186,16 +214,49 @@
         document.addEventListener("DOMContentLoaded", refreshItemCount);
         document.getElementById("button_add").onclick = addItem;
 
-        async function increaseAmount(itemId) {
-            await fetch(`/increase_amount/${itemId}/`);
-            refreshItems();
-            refreshItemCount();
+        async function increaseAmount(item_id) {
+            const response = await fetch(`/increase_amount/${item_id}/`, {
+                method: 'POST',
+            });
+
+            if (response.status === 200) {
+                refreshItems();
+                refreshItemCount();
+            }
         }
 
-        async function decreaseAmount(itemId) {
-            await fetch(`/decrease_amount/${itemId}/`);
-            refreshItems();
-            refreshItemCount();
+        async function decreaseAmount(item_id) {
+            const response = await fetch(`/decrease_amount/${item_id}/`, {
+                method: 'POST',
+            });
+
+            if (response.status === 200) {
+                refreshItems();
+                refreshItemCount();
+            }
+        }
+
+        function deleteItem(button, id) {
+            let url = button.getAttribute('data-url').replace('123', id);
+            fetch(url, {
+                method: "DELETE",
+            }).then(() => {
+                refreshItems();
+                refreshItemCount();
+            });
+        }
+
+        async function editItem(item_id) {
+            const response = await fetch(`/edit-item-ajax/${item_id}/`);
+            const item = await response.json();
+
+            document.getElementById("name").value = item.fields.name;
+            document.getElementById("amount").value = item.fields.amount;
+            document.getElementById("description").value = item.fields.description;
+            document.getElementById("category").value = item.fields.category;
+
+            // Open the modal
+            $('#exampleModal').modal('show');
         }
 
     </script>
